@@ -31,7 +31,7 @@ function GameFlowPage() {
 
 
 const getGame = () => {
-  Axios.post('http://localhost:8080/game/info', null, {
+  Axios.post('https://questions-game-app.herokuapp.com/game/info', null, {
     params: {
       gameId: localStorage.getItem('gameId')
     }
@@ -40,7 +40,7 @@ const getGame = () => {
 
 
   const connect = () => {
-    var socket = new SockJS('http://localhost:8080/handler');
+    var socket = new SockJS('https://questions-game-app.herokuapp.com/handler');
     let stompClient = Stomp.over(socket);
     stompClient.connect({}, () => {
       stompClient.subscribe('/topic/greetings', (message) => {

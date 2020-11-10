@@ -9,7 +9,7 @@ function LoginPage() {
 
 
 const register = () => {
-  Axios.post('http://localhost:8080/user', {name: username})
+  Axios.post('https://questions-game-app.herokuapp.com/user', {name: username})
   .then((response) => {localStorage.setItem('userId', response.data.id)})
 }
 

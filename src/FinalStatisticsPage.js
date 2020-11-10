@@ -11,7 +11,7 @@ function FinalStatisticsPage() {
 
 
   const getGame = () => {
-    Axios.post('http://localhost:8080/game/statistics', null, {
+    Axios.post('https://questions-game-app.herokuapp.com/game/statistics', null, {
       params: {
         gameId: localStorage.getItem('gameId')
       }
