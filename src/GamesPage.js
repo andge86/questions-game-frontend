@@ -34,13 +34,13 @@ function GamesPage() {
 
 
   const getGamesList = () => {
-    Axios.get('https://questions-game-app.herokuapp.com/game/list')
+    Axios.get(window.$endpoint + '/game/list')
       .then((response) => {setGamesList(response.data);})
   }
 
 
   const connect = () => {
-    var socket = new SockJS('https://questions-game-app.herokuapp.com/handler');
+    var socket = new SockJS(window.$endpoint + '/handler');
     let stompClient = Stomp.over(socket);
     stompClient.connect({}, (frame) => {
       stompClient.subscribe('/topic/greetings', (message) => {

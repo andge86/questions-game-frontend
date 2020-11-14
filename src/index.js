@@ -4,6 +4,9 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+// window.$endpoint = 'https://questions-game-app.herokuapp.com' //global variable
+window.$endpoint = 'http://localhost:8080' //global variable
+
 ReactDOM.render(
   <React.StrictMode>
     <App />

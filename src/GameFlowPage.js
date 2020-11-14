@@ -16,9 +16,6 @@ function GameFlowPage() {
   const [round, setRound] = useState(1)
   const [game, setGame] = useState(null)
   const [redirectToFinalStatisticsPage, setRedirectToFinalStatisticsPage] = useState(false)
-  const [isAnswered, setIsAnswered] = useState(false)
-  const [isVoted, setIsVoted] = useState(false)
-  const [isFinishedRound, setIsFinishedRound] = useState(false)
   const [stompClient, setStompClient] = useState()
 
 
@@ -31,7 +28,7 @@ function GameFlowPage() {
 
 
 const getGame = () => {
-  Axios.post('https://questions-game-app.herokuapp.com/game/info', null, {
+  Axios.post(window.$endpoint + '/game/info', null, {
     params: {
       gameId: localStorage.getItem('gameId')
     }
@@ -40,7 +37,7 @@ const getGame = () => {
 
 
   const connect = () => {
-    var socket = new SockJS('https://questions-game-app.herokuapp.com/handler');
+    var socket = new SockJS(window.$endpoint + '/handler');
     let stompClient = Stomp.over(socket);
     stompClient.connect({}, () => {
       stompClient.subscribe('/topic/greetings', (message) => {

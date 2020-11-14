@@ -46,12 +46,8 @@ function QuestionPage(props) {
       )
     })
 
-    const userAnswer = (id) =>{
-      return props.data.game.roundList[props.data.round - 1].answers.find(answer => answer.belongsToUser.id == id);
-    }
-
     const userState = (id) => {
-      return (userAnswer(id) == null) ? 'Answering...' : 'Answered'
+      return (props.data.game.roundList[props.data.round - 1].answers.find(answer => answer.belongsToUser.id == id) === undefined) ? 'Answering...' : 'Answered'
      }
 
     const getQuestionDescription = () => {
@@ -60,8 +56,7 @@ function QuestionPage(props) {
 
     const isDisabled = () => {
      // if (answer === '') return true
-      let currentUserAnswer = props.data.game.roundList[props.data.round - 1].answers.find(answer => answer.belongsToUser.id == localStorage.getItem('userId'));
-      return (currentUserAnswer == null) ? false : true
+     return (props.data.game.roundList[props.data.round - 1].answers.find(answer => answer.belongsToUser.id == localStorage.getItem('userId')) === undefined) ? false : true
     }
 
       return (
