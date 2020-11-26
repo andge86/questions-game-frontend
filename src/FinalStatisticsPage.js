@@ -13,7 +13,7 @@ function FinalStatisticsPage() {
   const getGame = () => {
     Axios.post(window.$endpoint + '/game/statistics', null, {
       params: {
-        gameId: localStorage.getItem('gameId')
+        gameId: sessionStorage.getItem('gameId')
       }
     }).then((response) => { setUserStats(response.data.userStats) });
   }

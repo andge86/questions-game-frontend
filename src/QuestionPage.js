@@ -19,9 +19,9 @@ function QuestionPage(props) {
         type: 'NEWANSWER',
         answerParams: {
           description: answer,
-          gameId: localStorage.getItem('gameId'),
+          gameId: sessionStorage.getItem('gameId'),
           round: props.data.round,
-          userId: localStorage.getItem('userId')
+          userId: sessionStorage.getItem('userId')
         }
       }
     ));
@@ -56,7 +56,7 @@ function QuestionPage(props) {
 
     const isDisabled = () => {
      // if (answer === '') return true
-     return (props.data.game.roundList[props.data.round - 1].answers.find(answer => answer.belongsToUser.id == localStorage.getItem('userId')) === undefined) ? false : true
+     return (props.data.game.roundList[props.data.round - 1].answers.find(answer => answer.belongsToUser.id == sessionStorage.getItem('userId')) === undefined) ? false : true
     }
 
       return (

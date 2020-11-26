@@ -52,16 +52,16 @@ if (JSON.parse(message.body).type == 'JOINGAME' ) {
 }
 
         else if (JSON.parse(message.body).type == 'STARTGAME' 
-        && JSON.parse(message.body).game.id == localStorage.getItem('gameId')) {
+        && JSON.parse(message.body).game.id == sessionStorage.getItem('gameId')) {
           setRedirectToQuestionAnswerPage(true);
           stompClient.disconnect();
        
         }
         else if (JSON.parse(message.body).type == 'NEWGAME') { 
-          if (JSON.parse(message.body).game.createdGameUser.id == localStorage.getItem('userId')){
+          if (JSON.parse(message.body).game.createdGameUser.id == sessionStorage.getItem('userId')){
            // setIsJoined(true)
            // setButtonText('Joined') 
-            localStorage.setItem('gameId', JSON.parse(message.body).game.id)
+           sessionStorage.setItem('gameId', JSON.parse(message.body).game.id)
           }
           
           getGamesList(); 
@@ -86,7 +86,7 @@ if (JSON.parse(message.body).type == 'JOINGAME' ) {
       gameParams: {
         name: gameName,
         rounds: roundQuantity,
-        createdUserId: localStorage.getItem('userId')
+        createdUserId: sessionStorage.getItem('userId')
       }
     }));
     setIsCreated(true)
@@ -98,10 +98,10 @@ if (JSON.parse(message.body).type == 'JOINGAME' ) {
       type: 'JOINGAME', 
       joinGameParams: {
         gameId: gameId,
-        userId: localStorage.getItem('userId')
+        userId: sessionStorage.getItem('userId')
       } }));
       setIsJoined(true);
-      localStorage.setItem('gameId', gameId)
+      sessionStorage.setItem('gameId', gameId)
   }
 
   const handleStartGameMessage = (gameId) => {
@@ -116,10 +116,10 @@ if (JSON.parse(message.body).type == 'JOINGAME' ) {
 
 
   const renderActionButton = (createdGameUserId, gameId, state) => {
-    if (createdGameUserId == localStorage.getItem('userId') && state == 'NEW') {
+    if (createdGameUserId == sessionStorage.getItem('userId') && state == 'NEW') {
       return (<button id={gameId} onClick={() => { handleStartGameMessage(gameId) }} > Start </button>)
     }
-    else if (gameId == localStorage.getItem('gameId')) {
+    else if (gameId == sessionStorage.getItem('gameId')) {
       return (<button id={gameId} disabled='true'> Joined </button>)
     }
     else if (state == 'NEW' && isJoined === false) {

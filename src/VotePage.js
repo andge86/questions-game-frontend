@@ -15,10 +15,10 @@ function VotePage(props) {
       {
         type: 'NEWVOTE',
         voteParams: {
-          userId: localStorage.getItem('userId'),
+          userId: sessionStorage.getItem('userId'),
           answerId: answerId,
           round: props.data.round,
-          gameId: localStorage.getItem('gameId')
+          gameId: sessionStorage.getItem('gameId')
         }
       }
     ));
@@ -72,9 +72,9 @@ const disab = () => {
     return (
     <div className="vote">
     <ul>
-          {getAnswers().filter(answer => answer.belongsToUser.id != localStorage.getItem('userId')).map(answer => (
+          {getAnswers().filter(answer => answer.belongsToUser.id != sessionStorage.getItem('userId')).map(answer => (
             <div key={answer.id}>
-              <button disabled = {userState(localStorage.getItem('userId'))} onClick = {() => {handleSendVoteMessage(answer.id)}}> {answer.description} </button>
+              <button disabled = {userState(sessionStorage.getItem('userId'))} onClick = {() => {handleSendVoteMessage(answer.id)}}> {answer.description} </button>
             </div>
           ))}
         </ul>

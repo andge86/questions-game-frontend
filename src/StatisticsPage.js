@@ -17,9 +17,9 @@ function StatisticsPage(props) {
       {
         type: 'NEWFINISHROUND',
         finishRoundParams: {
-          userId: localStorage.getItem('userId'),
+          userId: sessionStorage.getItem('userId'),
           round: props.data.round,
-          gameId: localStorage.getItem('gameId')
+          gameId: sessionStorage.getItem('gameId')
         }
       }
     ));
@@ -75,7 +75,7 @@ function StatisticsPage(props) {
            }
 
       const nextRounduttonText = () => {
-        if (userState(localStorage.getItem('userId'))) return "Waiting for others.."
+        if (userState(sessionStorage.getItem('userId'))) return "Waiting for others.."
         if (props.data.game.rounds === props.data.round) return "Finish Game"
         else return "Next Round"
          }
@@ -89,7 +89,7 @@ function StatisticsPage(props) {
           {renderVotesTable()}
         </tbody>
       </table>
-      <button disabled = {userState(localStorage.getItem('userId'))} onClick = {() => handleSendFinishRoundMessage()}> {nextRounduttonText()} </button>
+      <button disabled = {userState(sessionStorage.getItem('userId'))} onClick = {() => handleSendFinishRoundMessage()}> {nextRounduttonText()} </button>
 
       <table id='users'>
             <tbody>

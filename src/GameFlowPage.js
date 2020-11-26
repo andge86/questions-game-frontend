@@ -20,8 +20,8 @@ function GameFlowPage() {
 
 
   useEffect(() => {
-    if (localStorage.getItem('pageState') === null || localStorage.getItem('pageState') === '') localStorage.setItem('pageState', 'Question')
-    else setPageState(localStorage.getItem('pageState'))
+    if (sessionStorage.getItem('pageState') === null || sessionStorage.getItem('pageState') === '') sessionStorage.setItem('pageState', 'Question')
+    else setPageState(sessionStorage.getItem('pageState'))
     getGame();
     connect();
   }, []);
@@ -30,7 +30,7 @@ function GameFlowPage() {
 const getGame = () => {
   Axios.post(window.$endpoint + '/game/info', null, {
     params: {
-      gameId: localStorage.getItem('gameId')
+      gameId: sessionStorage.getItem('gameId')
     }
   }).then((response) => { setGame(response.data) });
 }
@@ -45,26 +45,26 @@ const getGame = () => {
           if (JSON.parse(message.body).type === 'NEWANSWER') {getGame()}
           else if (JSON.parse(message.body).type === 'ALLANSWERED') { 
             setPageState('Vote');
-            localStorage.setItem('pageState', 'Vote')
+            sessionStorage.setItem('pageState', 'Vote')
             getGame(); 
           }
           else if (JSON.parse(message.body).type === 'NEWVOTE') {getGame()}
           else if (JSON.parse(message.body).type === 'ALLVOTED') {
             setPageState('Statistics');
-            localStorage.setItem('pageState', 'Statistics')
+            sessionStorage.setItem('pageState', 'Statistics')
             getGame();
           }
 
           else if (JSON.parse(message.body).type === 'NEWFINISHROUND') {getGame()}
           else if (JSON.parse(message.body).type === 'ALLFINISHEDROUNDS') {
             setPageState('Question')
-            localStorage.setItem('pageState', 'Question')
+            sessionStorage.setItem('pageState', 'Question')
             getGame()
             setRound(JSON.parse(message.body).game.roundList.filter( round => round.state == 'NEW')[0].roundPlace);
           
           }
           else if (JSON.parse(message.body).type === 'GAMEFINISHED') {
-            localStorage.setItem('pageState', '')
+            sessionStorage.setItem('pageState', '')
             stompClient.disconnect();
             setRedirectToFinalStatisticsPage(true);
           }
@@ -81,9 +81,9 @@ const getGame = () => {
 
 
   const renderProperSubPage = () => {
-      if (localStorage.getItem('pageState') === 'Question') return < QuestionPage data = {{game, round, stompClient}} />
-      else if (localStorage.getItem('pageState') === 'Vote') return < VotePage data = {{game, round, stompClient}} />
-      else if (localStorage.getItem('pageState') === 'Statistics') return < StatisticsPage data = {{game, round, stompClient}} />
+      if (sessionStorage.getItem('pageState') === 'Question') return < QuestionPage data = {{game, round, stompClient}} />
+      else if (sessionStorage.getItem('pageState') === 'Vote') return < VotePage data = {{game, round, stompClient}} />
+      else if (sessionStorage.getItem('pageState') === 'Statistics') return < StatisticsPage data = {{game, round, stompClient}} />
   }
  
 
@@ -95,7 +95,7 @@ const getGame = () => {
   else {
     return (
     <div className="App">
-      <h2> Round {round} - {localStorage.getItem('pageState')} </h2>
+      <h2> Round {round} - {sessionStorage.getItem('pageState')} </h2>
       <div> {renderProperSubPage()} </div>
     </div>
   );

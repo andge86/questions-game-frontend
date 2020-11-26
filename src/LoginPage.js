@@ -10,7 +10,7 @@ function LoginPage() {
 
 const register = () => {
   Axios.post(window.$endpoint + '/user', {name: username})
-  .then((response) => {localStorage.setItem('userId', response.data.id)})
+  .then((response) => {sessionStorage.setItem('userId', response.data.id)})
 }
 
 
