@@ -11,7 +11,7 @@ var SockJS = require('sockjs-client');
 
 function GameFlowPage() {
 
-  const [pageState, setPageState] = useState('Question')  // states: Question, Vote, Statistics
+  const [pageState, setPageState] = useState('')  // states: Question, Vote, Statistics
   const [answer, setAnswer] = useState('')
   const [round, setRound] = useState(1)
   const [game, setGame] = useState(null)
@@ -22,6 +22,7 @@ function GameFlowPage() {
   useEffect(() => {
    // if (sessionStorage.getItem('pageState') === null || sessionStorage.getItem('pageState') === '') sessionStorage.setItem('pageState', 'Question')
    // else setPageState(sessionStorage.getItem('pageState'))
+   sessionStorage.setItem('pageState', 'Question');
     getGame();
     connect();
   }, []);
