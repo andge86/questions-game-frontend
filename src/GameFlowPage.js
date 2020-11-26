@@ -13,7 +13,7 @@ function GameFlowPage() {
 
   const [pageState, setPageState] = useState('')  // states: Question, Vote, Statistics
   const [answer, setAnswer] = useState('')
-  const [round, setRound] = useState(1)
+  const [round, setRound] = useState(0)
   const [game, setGame] = useState(null)
   const [redirectToFinalStatisticsPage, setRedirectToFinalStatisticsPage] = useState(false)
   const [stompClient, setStompClient] = useState()
@@ -23,6 +23,7 @@ function GameFlowPage() {
    // if (sessionStorage.getItem('pageState') === null || sessionStorage.getItem('pageState') === '') sessionStorage.setItem('pageState', 'Question')
    // else setPageState(sessionStorage.getItem('pageState'))
    sessionStorage.setItem('pageState', 'Question');
+   sessionStorage.setItem('round', 1);
     getGame();
     connect();
   }, []);
@@ -61,7 +62,8 @@ const getGame = () => {
             setPageState('Question')
             sessionStorage.setItem('pageState', 'Question')
             getGame()
-            setRound(JSON.parse(message.body).game.roundList.filter( round => round.state == 'NEW')[0].roundPlace);
+          // setRound(JSON.parse(message.body).game.roundList.filter( round => round.state == 'NEW')[0].roundPlace);
+          setRound(round + 1);
           
           }
           else if (JSON.parse(message.body).type === 'GAMEFINISHED') {
