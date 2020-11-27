@@ -35,7 +35,7 @@ function GamesPage() {
 
   const getGamesList = () => {
     Axios.get(window.$endpoint + '/game/list')
-      .then((response) => {setGamesList(response.data);})
+      .then((response) => { setGamesList(response.data); })
   }
 
 
@@ -45,27 +45,27 @@ function GamesPage() {
     stompClient.connect({}, (frame) => {
       stompClient.subscribe('/topic/greetings', (message) => {
 
-if (JSON.parse(message.body).type == 'JOINGAME' ) {
- // setButtonText('Joined') 
- // localStorage.setItem('gameId', JSON.parse(message.body).game.id)
-  getGamesList()
-}
+        if (JSON.parse(message.body).type == 'JOINGAME') {
+          // setButtonText('Joined') 
+          // localStorage.setItem('gameId', JSON.parse(message.body).game.id)
+          getGamesList()
+        }
 
-        else if (JSON.parse(message.body).type == 'STARTGAME' 
-        && JSON.parse(message.body).game.id == sessionStorage.getItem('gameId')) {
+        else if (JSON.parse(message.body).type == 'STARTGAME'
+          && JSON.parse(message.body).game.id == sessionStorage.getItem('gameId')) {
           setRedirectToQuestionAnswerPage(true);
           stompClient.disconnect();
-       
+
         }
-        else if (JSON.parse(message.body).type == 'NEWGAME') { 
-          if (JSON.parse(message.body).game.createdGameUser.id == sessionStorage.getItem('userId')){
-           // setIsJoined(true)
-           // setButtonText('Joined') 
-           sessionStorage.setItem('gameId', JSON.parse(message.body).game.id)
+        else if (JSON.parse(message.body).type == 'NEWGAME') {
+          if (JSON.parse(message.body).game.createdGameUser.id == sessionStorage.getItem('userId')) {
+            // setIsJoined(true)
+            // setButtonText('Joined') 
+            sessionStorage.setItem('gameId', JSON.parse(message.body).game.id)
           }
-          
-          getGamesList(); 
-        
+
+          getGamesList();
+
         }
       }
       )
@@ -82,7 +82,7 @@ if (JSON.parse(message.body).type == 'JOINGAME' ) {
 
   const handleNewGameMessage = (gameName, roundQuantity) => {
     stompClient.send("/app/newGame", {}, JSON.stringify({
-      type: 'NEWGAME', 
+      type: 'NEWGAME',
       gameParams: {
         name: gameName,
         rounds: roundQuantity,
@@ -94,24 +94,26 @@ if (JSON.parse(message.body).type == 'JOINGAME' ) {
   }
 
   const handleJoinMessage = (gameId) => {
-    stompClient.send("/app/joinGame", {}, JSON.stringify({ 
-      type: 'JOINGAME', 
+    stompClient.send("/app/joinGame", {}, JSON.stringify({
+      type: 'JOINGAME',
       joinGameParams: {
         gameId: gameId,
         userId: sessionStorage.getItem('userId')
-      } }));
-      setIsJoined(true);
-      sessionStorage.setItem('gameId', gameId)
+      }
+    }));
+    setIsJoined(true);
+    sessionStorage.setItem('gameId', gameId)
   }
 
   const handleStartGameMessage = (gameId) => {
-      stompClient.send("/app/startGame", {}, JSON.stringify({ 
-        type: 'STARTGAME', 
-        startGameParams: {
-          gameId: gameId,
-      //    userId: localStorage.getItem('userId')
-     //     state: "ACTIVE"
-        } }));
+    stompClient.send("/app/startGame", {}, JSON.stringify({
+      type: 'STARTGAME',
+      startGameParams: {
+        gameId: gameId,
+        //    userId: localStorage.getItem('userId')
+        //     state: "ACTIVE"
+      }
+    }));
   };
 
 
@@ -119,14 +121,15 @@ if (JSON.parse(message.body).type == 'JOINGAME' ) {
     if (createdGameUserId == sessionStorage.getItem('userId') && state == 'NEW') {
       return (<button id={gameId} onClick={() => { handleStartGameMessage(gameId) }} > Start </button>)
     }
-    else if (state == 'FINISHED') return null
+    else if (state == 'FINISHED')
+      return null
     else if (gameId == sessionStorage.getItem('gameId')) {
       return (<button id={gameId} disabled='true'> Joined </button>)
     }
     else if (state == 'NEW' && (sessionStorage.getItem('gameId') == null || sessionStorage.getItem('gameId') == "")) {
       return (<button id={gameId} onClick={() => { handleJoinMessage(gameId) }}> Join </button>)
     }
-    else if (isJoined === true || state == 'ACTIVE'){
+    else if (isJoined === true || state == 'ACTIVE') {
       return (<button id={gameId} disabled='true'> Join </button>)
     }
   }
@@ -171,14 +174,14 @@ if (JSON.parse(message.body).type == 'JOINGAME' ) {
       <div className="App">
         <div>
           <h1 id='title'>All Games List</h1>
-          <button onClick={() => {setShowPopup(true)}}>Create New Game</button>
+          <button onClick={() => { setShowPopup(true) }}>Create New Game</button>
           <table id='games'>
             <tbody>
               {<tr>{renderTableHeader()}</tr>}
               {renderTableData()}
             </tbody>
           </table>
-          {showPopup ? <Popup closePopup={submitPopup.bind(this)}/> : null}
+          {showPopup ? <Popup closePopup={submitPopup.bind(this)} /> : null}
         </div>
       </div>
     );
