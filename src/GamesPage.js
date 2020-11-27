@@ -119,10 +119,11 @@ if (JSON.parse(message.body).type == 'JOINGAME' ) {
     if (createdGameUserId == sessionStorage.getItem('userId') && state == 'NEW') {
       return (<button id={gameId} onClick={() => { handleStartGameMessage(gameId) }} > Start </button>)
     }
+    else if (state == 'FINISHED') return null
     else if (gameId == sessionStorage.getItem('gameId')) {
       return (<button id={gameId} disabled='true'> Joined </button>)
     }
-    else if (state == 'NEW' && isJoined === false) {
+    else if (state == 'NEW' && (sessionStorage.getItem('gameId') == null || sessionStorage.getItem('gameId') == "")) {
       return (<button id={gameId} onClick={() => { handleJoinMessage(gameId) }}> Join </button>)
     }
     else if (isJoined === true || state == 'ACTIVE'){

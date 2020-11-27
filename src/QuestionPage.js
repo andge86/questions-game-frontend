@@ -4,10 +4,14 @@ import { Redirect } from 'react-router-dom';
 import './components/style.css';
 import Popup from './components/Popup';
 
+//import {useSelector, useDispatch} from 'react-redux'
+
 var Stomp = require('stompjs');
 var SockJS = require('sockjs-client');
 
 function QuestionPage(props) {
+
+ // const currentRound = useSelector(state => state.currentRound)
 
 
   const [answer, setAnswer] = useState('')
@@ -20,7 +24,7 @@ function QuestionPage(props) {
         answerParams: {
           description: answer,
           gameId: sessionStorage.getItem('gameId'),
-          round: props.data.round,
+          round: sessionStorage.getItem('round'),
           userId: sessionStorage.getItem('userId')
         }
       }

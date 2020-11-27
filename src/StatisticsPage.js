@@ -4,12 +4,15 @@ import { Redirect } from 'react-router-dom';
 import './components/style.css';
 import Popup from './components/Popup';
 
+import {useSelector, useDispatch} from 'react-redux'
+
 var Stomp = require('stompjs');
 var SockJS = require('sockjs-client');
 
 function StatisticsPage(props) {
 
   
+ // const currentRound = useSelector(state => state.currentRound)
 
 
   const handleSendFinishRoundMessage = () => {
@@ -18,7 +21,7 @@ function StatisticsPage(props) {
         type: 'NEWFINISHROUND',
         finishRoundParams: {
           userId: sessionStorage.getItem('userId'),
-          round: props.data.round,
+          round: sessionStorage.getItem('round'),
           gameId: sessionStorage.getItem('gameId')
         }
       }
@@ -35,7 +38,7 @@ function StatisticsPage(props) {
     }
   
     const renderVotesTable = () =>
-    props.data.game.roundList[props.data.round - 1].answers.map((answer, index) => {
+    props.data.game.roundList.filter(round => round.roundPlace == sessionStorage.getItem('round'))[0].answers.map((answer, index) => {
         const { id, description, votesBelongToAnswer } = answer //destructuring
         return (
               <tr key={id}>
@@ -61,7 +64,7 @@ function StatisticsPage(props) {
                 <tr key={id}>
                   <td>{id}</td>
                   <td>{name}</td>
-                  <td> {(userState(id)) ? "CHecked statistics" : "Checking statistisc..."} </td>
+                  <td> {(userState(id)) ? "Checked statistics" : "Checking statistics..."} </td>
                 </tr>
           )
         })
@@ -71,12 +74,12 @@ function StatisticsPage(props) {
   
       
           const userState = (id) => {
-            return (props.data.game.roundList[props.data.round - 1].usersFinishedRound.find(user => user.id == id) == null) ? false : true
+            return (props.data.game.roundList.filter(round => round.roundPlace == sessionStorage.getItem('round'))[0].usersFinishedRound.find(user => user.id == id) == null) ? false : true
            }
 
       const nextRounduttonText = () => {
         if (userState(sessionStorage.getItem('userId'))) return "Waiting for others.."
-        if (props.data.game.rounds === props.data.round) return "Finish Game"
+        else if (props.data.game.rounds == sessionStorage.getItem('round')) return "Finish Game"
         else return "Next Round"
          }
 

@@ -4,10 +4,14 @@ import { Redirect } from 'react-router-dom';
 import './components/style.css';
 import Popup from './components/Popup';
 
+//import {useSelector, useDispatch} from 'react-redux'
+
 var Stomp = require('stompjs');
 var SockJS = require('sockjs-client');
 
 function VotePage(props) {
+
+  //const currentRound = useSelector(state => state.currentRound)
 
 
   const handleSendVoteMessage = (answerId) => {
@@ -17,7 +21,7 @@ function VotePage(props) {
         voteParams: {
           userId: sessionStorage.getItem('userId'),
           answerId: answerId,
-          round: props.data.round,
+          round: sessionStorage.getItem('round'),
           gameId: sessionStorage.getItem('gameId')
         }
       }
@@ -48,24 +52,17 @@ function VotePage(props) {
 
 
     const userState = (id) => {
-      return (props.data.game.roundList[props.data.round - 1].answers.find(answer => answer.votesBelongToAnswer.find(vote => vote.belongsToUser.id == id)) == null) ? false : true
+      return (props.data.game.roundList.filter(round => round.roundPlace == sessionStorage.getItem('round'))[0].answers.find(answer => answer.votesBelongToAnswer.find(vote => vote.belongsToUser.id == id)) == undefined) ? false : true
     }
 
 
     const isVoteDisabled = (id) => {
-        return (props.data.game.roundList[props.data.round - 1].answers.find(answer => answer.votesBelongToAnswer.find(vote => vote.belongsToUser.id == id)) == null) ? 'false' : 'true'
+        return (props.data.game.roundList.filter(round => round.roundPlace == sessionStorage.getItem('round'))[0].answers.find(answer => answer.votesBelongToAnswer.find(vote => vote.belongsToUser.id == id)) == undefined) ? 'false' : 'true'
     }
 
     const getAnswers = () => {
-      return props.data.game.roundList[props.data.round - 1].answers
+      return props.data.game.roundList.filter(round => round.roundPlace == sessionStorage.getItem('round'))[0].answers
     }
-
-
-
-  
-const disab = () => {
-    return 'true'
-}
 
 
 

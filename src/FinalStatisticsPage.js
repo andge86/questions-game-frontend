@@ -21,6 +21,7 @@ function FinalStatisticsPage() {
 
 
   if (redirectToGamesPage === true) {
+    sessionStorage.setItem('gameId', '')
     return <Redirect to="/GamesPage" />
   }
 
@@ -51,7 +52,7 @@ function FinalStatisticsPage() {
     }
 else return (
     <div className="App">
-<h2> Final Results: </h2>
+<h2> Final Statistics: </h2>
 
 <table id='statistics'>
             <tbody>
