@@ -47,16 +47,20 @@ function QuestionPage(props) {
     })
 
     const userState = (id) => {
-      return (props.data.game.roundList.find(round => round.roundPlace == props.data.round)[0].answers.find(answer => answer.belongsToUser.id == id) === undefined) ? 'Answering...' : 'Answered'
+      return (props.data.game.roundList.filter(round => round.roundPlace == sessionStorage.getItem('round'))[0].answers.find(answer => answer.belongsToUser.id == id) === undefined) ? 'Answering...' : 'Answered'
+     // return (props.data.game.roundList[props.data.round-1].answers.find(answer => answer.belongsToUser.id == id) === undefined) ? 'Answering...' : 'Answered'
      }
 
     const getQuestionDescription = () => {
-     return "Question: " + props.data.game.roundList.find(round => round.roundPlace == props.data.round)[0].question.description
+     return "Question: " + props.data.game.roundList.filter(round => round.roundPlace == sessionStorage.getItem('round'))[0].question.description
+//return "Question: " + props.data.game.roundList[props.data.round-1].question.description
+
     }
 
     const isDisabled = () => {
      // if (answer === '') return true
-     return (props.data.game.roundList.find(round => round.roundPlace == props.data.round)[0].answers.find(answer => answer.belongsToUser.id == sessionStorage.getItem('userId')) === undefined) ? false : true
+    // return (props.data.game.roundList[props.data.round-1].answers.find(answer => answer.belongsToUser.id == sessionStorage.getItem('userId')) === undefined) ? false : true
+    return (props.data.game.roundList.filter(round => round.roundPlace == sessionStorage.getItem('round'))[0].answers.find(answer => answer.belongsToUser.id == sessionStorage.getItem('userId')) === undefined) ? false : true
     }
 
       return (

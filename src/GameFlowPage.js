@@ -13,7 +13,7 @@ function GameFlowPage() {
 
   const [pageState, setPageState] = useState('')  // states: Question, Vote, Statistics
   const [answer, setAnswer] = useState('')
-  const [round, setRound] = useState(0)
+  const [round, setRound] = useState(1)
   const [game, setGame] = useState(null)
   const [redirectToFinalStatisticsPage, setRedirectToFinalStatisticsPage] = useState(false)
   const [stompClient, setStompClient] = useState()
@@ -22,8 +22,8 @@ function GameFlowPage() {
   useEffect(() => {
    // if (sessionStorage.getItem('pageState') === null || sessionStorage.getItem('pageState') === '') sessionStorage.setItem('pageState', 'Question')
    // else setPageState(sessionStorage.getItem('pageState'))
-   sessionStorage.setItem('pageState', 'Question');
-   sessionStorage.setItem('round', 1);
+  if (sessionStorage.getItem('pageState') === null) sessionStorage.setItem('pageState', 'Question');
+  if (sessionStorage.getItem('round') === null) sessionStorage.setItem('round', 1);
     getGame();
     connect();
   }, []);
@@ -63,7 +63,10 @@ const getGame = () => {
             sessionStorage.setItem('pageState', 'Question')
             getGame()
           // setRound(JSON.parse(message.body).game.roundList.filter( round => round.state == 'NEW')[0].roundPlace);
-          setRound(round + 1);
+          
+          
+          sessionStorage.setItem('round', parseInt(sessionStorage.getItem('round')) + 1);
+          setRound(sessionStorage.getItem('round'));
           
           }
           else if (JSON.parse(message.body).type === 'GAMEFINISHED') {
@@ -98,7 +101,7 @@ const getGame = () => {
   else {
     return (
     <div className="App">
-      <h2> Round {round} - {sessionStorage.getItem('pageState')} </h2>
+      <h2> Round {sessionStorage.getItem('round')} - {sessionStorage.getItem('pageState')} </h2>
       <div> {renderProperSubPage()} </div>
     </div>
   );
