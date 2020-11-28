@@ -150,12 +150,36 @@ function GamesPage() {
       )
     })
 
+
+  const renderNewTableData = () =>
+    gamesList.map((game, index) => {
+      const { id, name, rounds, usersBelongToGame, createdGameUser, state } = game //destructuring
+      return (
+
+        <div key={id} className="ListTable">
+          <p></p>
+
+          <div><b>Game: </b> {name} </div>
+          <div><b>Created by: </b>{createdGameUser.name}</div>
+          <div><b>State: </b> {state} </div>
+          <div><b>Rounds: </b> {rounds} </div>
+          <div> <b>Joined players: </b> {usersBelongToGame.length} </div>
+          <div>{renderActionButton(createdGameUser.id, id, state)}</div>
+        </div>
+      )
+    })
+
+
   const renderTableHeader = () => {
     var headers = ['name', 'rounds', 'users', 'createdBy', 'state', 'action'];
     return headers.map((key, index) => {
       return <th key={index}>{key.toUpperCase()}</th>
     })
   }
+
+
+
+
 
 
   if (redirectToQuestionAnswerPage === true) {
@@ -175,12 +199,9 @@ function GamesPage() {
         <div>
           <h1 id='title'>All Games List</h1>
           <button onClick={() => { setShowPopup(true) }}>Create New Game</button>
-          <table id='games'>
-            <tbody>
-              {<tr>{renderTableHeader()}</tr>}
-              {renderTableData()}
-            </tbody>
-          </table>
+
+          {renderNewTableData()}
+
           {showPopup ? <Popup closePopup={submitPopup.bind(this)} /> : null}
         </div>
       </div>

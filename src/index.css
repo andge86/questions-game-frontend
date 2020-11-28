@@ -12,6 +12,7 @@ code {
     monospace;
 }
 
+
 table, th, td {
   border: 1px solid gray;
   margin: 0 auto;
@@ -19,5 +20,5 @@ table, th, td {
 }
 
 button, input {
-  padding: 8px 28px;
+  padding: 6px 30px;
 }

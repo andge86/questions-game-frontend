@@ -56,7 +56,7 @@ function QuestionPage(props) {
      }
 
     const getQuestionDescription = () => {
-     return "Question: " + props.data.game.roundList.filter(round => round.roundPlace == sessionStorage.getItem('round'))[0].question.description
+     return "Question: " + props.data.game.roundList.filter(round => round.roundPlace == sessionStorage.getItem('round'))[0].questionText
 //return "Question: " + props.data.game.roundList[props.data.round-1].question.description
 
     }
